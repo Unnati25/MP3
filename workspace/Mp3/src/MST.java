@@ -14,12 +14,11 @@ public class MST {
     static int PrimMST(Graph g, Vertex s)
     {
         int wmst = 0;
-        int size=1;
         PriorityQueue<Edge> pq= new PriorityQueue<>();
         for(Edge e:s.adj){
         	pq.add(e);
         }
-        while(size<g.size){
+        while(!pq.isEmpty()){
         	s.seen=true;
         	Edge e= pq.remove();
         	wmst =wmst + e.weight;
@@ -39,24 +38,29 @@ public class MST {
         			pq.add(f);
         		}
         	}
-        	
-        size++;	
         }
         return wmst;
     }
-
-    public static void main(String[] args) throws FileNotFoundException {
-	Scanner in;
-
-        if (args.length > 0) {
-            File inputFile = new File(args[0]);
-            in = new Scanner(inputFile);
-        } else {
-            in = new Scanner(System.in);
+    static int PrimMST2(Graph g, Vertex s)
+    {
+        int wmst = 0;
+        Vertex[] arr = g.v.toArray(new Vertex[g.v.size()]);
+        IndexedHeap<Vertex> pq= new IndexedHeap<Vertex>(arr, s);
+       // s.seen=true;
+        s.d=0;
+        while(!pq.isEmpty()){
+        	s.seen=true;
+        	Vertex v = pq.remove();
+        	wmst = wmst + v.d;
+        	for(Edge e:v.adj){
+        		 Vertex u=e.to;
+        	 if(!u.seen && e.weight <u.d){
+        		 u.d=e.weight;
+        		 u.p=v;
+        		pq.percolateUp(u.getIndex());
+        	 }
+        	}
         }
-
-	Graph g = Graph.readGraph(in);
-        Vertex s = g.getVertex(1);
-        System.out.println(PrimMST(g, s));
+        return wmst;
     }
 }

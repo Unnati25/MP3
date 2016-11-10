@@ -14,16 +14,18 @@ public class Vertex implements Index, Comparator<Vertex>, Iterable<Edge> {
     boolean seen; // flag to check if the vertex has already been visited
     int d;  Vertex p;  // fields used in algorithms of Prim and Dijkstra
     List<Edge> adj, revAdj; // adjacency list; use LinkedList or ArrayList
-
+    int index;
+    
     public int getIndex() { // To Do
-	return 0;
+	return this.index;
     }
 
     public void putIndex(int i) { // To Do
+     this.index=i;
     }
 
     public int compare(Vertex u, Vertex v) { // To Do
-	return 0;
+	return u.d-v.d;
     }
 
     /**

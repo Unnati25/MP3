@@ -5,11 +5,12 @@ import java.util.Comparator;
 public class BinaryHeap<T> implements PQ<T> {
     T[] pq;
     Comparator<T> c;
-    int size = pq.length;
+    int size;
     /** Build a priority queue with a given array q */
     BinaryHeap(T[] q, Comparator<T> comp) {
 	pq = q;
 	c = comp;
+	size =pq.length -1;
 	buildHeap();
     }
 
@@ -58,9 +59,10 @@ public class BinaryHeap<T> implements PQ<T> {
     	i=i/2;
        }
       pq[i]=pq[0];
+      
     	}
 
-    /** pq[i] may violate heap order with children */
+    /** pq[i] ma y violate heap order with children */
     void percolateDown(int i) {
     	T x=pq[i];
     	while(2*i<=size){
@@ -89,8 +91,12 @@ public class BinaryHeap<T> implements PQ<T> {
     /** Create a heap.  Precondition: none. */
     void buildHeap() {
     for(int i=pq.length/2; i>=1;i--){
-    	percolateUp(i);
+    	percolateDown(i);
     }
+    }
+    
+    public boolean isEmpty(){
+    	return size <= 0;
     }
 
     /* sort array A[1..n].  A[0] is not used. 
